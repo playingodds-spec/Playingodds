@@ -27,41 +27,32 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .hero { position: relative; width: 100%; line-height: 0; }
+  .hero { width: 100%; line-height: 0; }
   .hero img { width: 100%; height: auto; display: block; }
-  /* Scrim only at the bottom edge so the art carries the top of the frame. */
-  .hero::after {
-    content: "";
-    position: absolute; left: 0; right: 0; bottom: 0;
-    height: 55%;
-    background: linear-gradient(to bottom, rgba(13,16,19,0) 0%, rgba(13,16,19,0.82) 72%, var(--bg) 100%);
-    pointer-events: none;
-  }
+
+  /* The caption sits UNDER the art, never over it. The target fills the
+     centre-bottom of the frame, so overlaid text landed on light tan wood
+     with a rope through it -- unreadable, and it buried the thing the page
+     exists to show. */
   .hero-caption {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 0 1.25rem 1.4rem;
+    padding: 1.5rem 1.25rem 0.25rem;
     text-align: center;
     line-height: 1.15;
-    z-index: 2;
   }
   .hero-caption h1 {
     font-family: Georgia, "Times New Roman", serif;
     font-weight: normal;
-    font-size: clamp(1.5rem, 5.2vw, 3rem);
+    font-size: clamp(1.6rem, 6.4vw, 3rem);
     margin: 0;
     color: var(--gold);
-    text-shadow: 0 2px 18px rgba(0,0,0,0.85);
   }
   .hero-caption p {
-    margin: 0.5rem 0 0;
-    font-size: clamp(0.85rem, 2.4vw, 1.05rem);
-    color: var(--fg);
-    opacity: 0.92;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    margin: 0.6rem 0 0;
+    font-size: clamp(0.92rem, 3.4vw, 1.05rem);
+    color: var(--muted);
   }
 
-  main { max-width: 34rem; margin: 0 auto; padding: 1.6rem 1.5rem 4rem; }
+  main { max-width: 34rem; margin: 0 auto; padding: 1.2rem 1.5rem 4rem; }
   .lede { font-size: 1.12rem; margin: 0 0 1.4rem; }
   p { margin: 0 0 1.1rem; }
   .rules { margin: 2rem 0; padding: 0; list-style: none; }
@@ -96,10 +87,11 @@
 
   <div class="hero">
     <img src="range-closed.png" alt="A weathered wooden archery target at golden hour with a rope strung across it and a single arrow lodged in the outer ring.">
-    <div class="hero-caption">
-      <h1>The range is closed.<br>Congratulate them anyway.</h1>
-      <p>Sportsmanship costs nothing. Neither does this game, eventually.</p>
-    </div>
+  </div>
+
+  <div class="hero-caption">
+    <h1>The range is closed.<br>Congratulate them anyway.</h1>
+    <p>Sportsmanship costs nothing. Neither does this game, eventually.</p>
   </div>
 
   <main>
