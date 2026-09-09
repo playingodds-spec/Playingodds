@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Range Is Closed — Targetfall</title>
-<meta name="description" content="A Targetfall run, and how to get into the closed test.">
-<meta property="og:title" content="The range is closed. Congratulate me anyway.">
-<meta property="og:description" content="A Targetfall score. Impressive, probably. Unverifiable, definitely.">
+<meta name="description" content="A Targetfall score worth beating, and how to get into the closed test.">
+<meta property="og:title" content="Beat my Targetfall score. Go on.">
+<meta property="og:description" content="There is one problem. The range is closed — and you are not in the test yet.">
 <meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/brag/range-closed.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -84,23 +84,17 @@
       </ul>
 
       <div class="share-box">
-        <button class="share-btn" id="share-btn" type="button">Share my run</button>
-        <div><a class="share-alt" id="share-sms" href="#">Send as a text instead</a></div>
+        <button class="share-btn" id="share-btn" type="button">Send the challenge</button>
+        <div><a class="share-alt" id="share-sms" href="#">Send it as a text instead</a></div>
         <p class="share-note" id="share-note"></p>
       </div>
     </section>
 
     <p class="sting" id="sting">Targetfall is in closed testing, so it is not on the store yet.</p>
 
-    <ul class="rules" id="rules" hidden>
-      <li>Congratulate me. Out loud.</li>
-      <li>Don&rsquo;t say you&rsquo;d have got more.</li>
-      <li>Don&rsquo;t ask if I used my Rewind.</li>
-    </ul>
-
     <section class="signup">
-      <h2>Want in?</h2>
-      <p>The test has room. Send me the Google account on your Android phone and I&rsquo;ll add you.</p>
+      <h2 id="signup-head">Want in?</h2>
+      <p id="signup-copy">The test has room. Send me the Google account on your Android phone and I&rsquo;ll add you.</p>
       <a class="cta" id="signup-mail" href="#">Email me &rarr;</a>
       <img class="qr" src="signup-qr.png" alt="QR code that writes the signup email for you.">
       <p class="fine">Or scan it — the email writes itself.</p>
@@ -157,9 +151,12 @@
   if (hasRun) {
     setText("r-score", String(score));
     show("results");
-    show("rules");
-    setText("headline", "The range is closed. Congratulate me anyway.");
-    setText("sting", "Targetfall isn't out yet. I can shoot arrows. You can't.");
+    setText("headline", "Beat that.");
+    setText("sting", "One problem: the range is closed. Targetfall isn't out yet, "
+                   + "so you can't beat anything until you're in the test.");
+    setText("signup-head", "Get in and prove it.");
+    setText("signup-copy", "The test has room. Send me the Google account on your "
+                         + "Android phone and I'll add you.");
     if (acc !== null)   { setText("r-acc", acc + "%");     show("li-acc"); }
     if (bull !== null)  { setText("r-bull", String(bull)); show("li-bull"); }
     if (streak !== null){ setText("r-streak", String(streak)); show("li-streak"); }
@@ -171,8 +168,8 @@
     var bits = [];
     if (acc !== null)  bits.push(acc + "% accuracy");
     if (bull !== null) bits.push(bull + (bull === 1 ? " bullseye" : " bullseyes"));
-    var tail = bits.length ? " — " + bits.join(", ") : "";
-    return "I scored " + score + " on Targetfall" + tail + ".";
+    var tail = bits.length ? " (" + bits.join(", ") + ")" : "";
+    return "I scored " + score + " on Targetfall" + tail + ". Bet you can't beat it.";
   }
 
   // --- the signup mail, built here so the address is not raw in the HTML --
@@ -252,10 +249,19 @@
 
     if (range) {
       y += 86;
-      x.fillStyle = "#e8b869";
-      x.font = "italic 46px " + SERIF;
+      x.fillStyle = "#a09384";
+      x.font = "italic 44px " + SERIF;
       x.fillText(range, W / 2, y);
     }
+
+    // The dare, on the image itself. This is the only part most people see --
+    // it arrives in a group chat and is never tapped.
+    y += 112;
+    x.fillStyle = "#e8b869";
+    x.font = "700 76px " + SERIF;
+    x.letterSpacing = "4px";
+    x.fillText("BEAT IT.", W / 2, y);
+    x.letterSpacing = "0px";
 
     // The URL is BURNED IN on purpose. Several messaging apps drop the text
     // when a file is attached, and without this the picture is a dead end.
