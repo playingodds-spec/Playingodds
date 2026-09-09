@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Targetfall — I need 12 testers</title>
+<meta name="description" content="Tap, install, leave it on your phone. Android only.">
+<meta property="og:title" content="I need 12 testers.">
+<meta property="og:description" content="Google won't put Targetfall on the Play Store until 12 people test it for two weeks. Tap, install, leave it on your phone — you don't have to play it.">
+<meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/join/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://playingodds-spec.github.io/Playingodds/join/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{--bg:#0d1013;--fg:#f2ede4;--muted:#a09384;--gold:#e8b869;--rule:rgba(232,184,105,.22)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);text-align:center;
+       font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .hero{width:100%;line-height:0}
+  .hero img{width:100%;height:auto;display:block}
+  main{max-width:30rem;margin:0 auto;padding:1.6rem 1.5rem 3rem}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.9rem,7vw,2.6rem);
+     margin:0 0 .6rem;color:var(--gold)}
+  p{margin:0 0 1.1rem;color:var(--fg)}
+  .sub{color:var(--muted);font-size:.98rem}
+  .cta{display:inline-block;background:var(--gold);color:#14171a;font-weight:700;
+       text-decoration:none;padding:.95rem 1.6rem;border-radius:5px;font-size:1.05rem;margin-top:.4rem}
+  .qr{display:block;width:186px;height:186px;image-rendering:pixelated;border-radius:8px;
+      background:#f2ede4;padding:8px;margin:1.5rem auto .5rem}
+  .fine{font-size:.85rem;color:var(--muted);margin:.4rem 0 0}
+  .fine strong{color:var(--gold)}
+  footer{margin-top:2rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+         color:var(--muted);font-size:.8rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+
+  <div class="hero"><img src="og.jpg" alt="Targetfall — I need 12 testers."></div>
+
+  <main>
+    <h1>Want in?</h1>
+    <p>Google won&rsquo;t put Targetfall on the Play Store until 12 people test it
+       for two weeks. <strong>You don&rsquo;t have to play it</strong> — just leave it
+       installed.</p>
+
+    <a class="cta" id="signup-mail" href="#">Email me and I&rsquo;ll add you &rarr;</a>
+
+    <img class="qr" src="signup-qr.png" alt="QR code that writes the signup email for you.">
+    <p class="fine">Or scan it — the email writes itself.</p>
+
+    <p class="fine"><strong>Android only.</strong> Google&rsquo;s test system can&rsquo;t reach iPhones.</p>
+
+    <footer>
+      <strong>Targetfall</strong> — one-thumb archery.<br>
+      Playing Odds Games · <a href="../">Privacy</a>
+    </footer>
+  </main>
+
+<script>
+(function () {
+  var body = "I'd like to join the Targetfall closed test. "
+           + "Sending from the Google account on my Android phone.\n";
+  document.getElementById("signup-mail").href =
+    "mailto:Playingodds@gmail.com"
+    + "?subject=" + encodeURIComponent("Targetfall test signup")
+    + "&body=" + encodeURIComponent(body);
+})();
+</script>
+
+</body>
+</html>
