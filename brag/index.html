@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Range Is Closed — Targetfall</title>
-<meta name="description" content="Someone sent you a Targetfall score. The game isn't out yet. Here's how to get in.">
-<meta property="og:title" content="The range is closed. Congratulate them anyway.">
-<meta property="og:description" content="Someone just sent you a Targetfall score. Impressive, probably. Unverifiable, definitely.">
+<meta name="description" content="A Targetfall run, and how to get into the closed test.">
+<meta property="og:title" content="The range is closed. Congratulate me anyway.">
+<meta property="og:description" content="A Targetfall score. Impressive, probably. Unverifiable, definitely.">
 <meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/brag/range-closed.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -22,7 +22,6 @@
   .cap{padding:1.4rem 1.25rem .25rem;text-align:center;line-height:1.12}
   .cap h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,6.4vw,2.7rem);margin:0;color:var(--gold)}
 
-  /* Score: the loudest thing on the page. */
   .score-card{margin:1.6rem 0 0;padding:1.6rem 1rem 1.3rem;text-align:center;
     border:1px solid var(--rule);border-radius:8px;
     background:radial-gradient(120% 140% at 50% 0%,rgba(232,184,105,.12),rgba(232,184,105,0) 70%)}
@@ -32,6 +31,16 @@
   .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:1.1rem 0 0;padding:0;list-style:none}
   .stats .v{display:block;font-family:Georgia,serif;font-size:1.35rem;color:var(--gold)}
   .stats .k{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
+
+  /* Share is the point of this page, so it gets the loudest control. */
+  .share-box{margin:1.4rem 0 0;text-align:center}
+  .share-btn{display:inline-block;width:100%;max-width:20rem;background:var(--gold);color:#14171a;
+    font-size:1.05rem;font-weight:700;border:0;border-radius:6px;padding:1rem 1.2rem;cursor:pointer;
+    font-family:inherit;letter-spacing:.01em}
+  .share-btn:active{filter:brightness(.94)}
+  .share-btn[disabled]{opacity:.6;cursor:default}
+  .share-alt{display:inline-block;margin-top:.75rem;color:var(--gold);font-size:.9rem}
+  .share-note{color:var(--muted);font-size:.82rem;margin:.6rem 0 0;min-height:1.2em}
 
   .sting{margin:1.6rem 0 0;font-size:1.05rem}
   .rules{margin:1.2rem 0 0;padding:0;list-style:none;color:var(--muted);font-size:.95rem}
@@ -43,8 +52,7 @@
   .signup h2{font-family:Georgia,serif;font-size:1.35rem;color:var(--gold);margin:0 0 .5rem}
   .signup p{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
   .cta{display:inline-block;background:var(--gold);color:#14171a;font-weight:700;text-decoration:none;
-    padding:.85rem 1.4rem;border-radius:5px;letter-spacing:.01em}
-  .cta:hover{filter:brightness(1.08)}
+    padding:.85rem 1.4rem;border-radius:5px}
   .qr{width:172px;height:172px;image-rendering:pixelated;border-radius:8px;background:#f2ede4;padding:7px;margin:1.3rem 0 .4rem}
   .fine{font-size:.8rem;color:var(--muted);margin:.5rem 0 0}
   .fine strong{color:var(--gold)}
@@ -56,15 +64,15 @@
 <body>
 
   <div class="hero">
-    <img src="range-closed.png" alt="A weathered archery target at golden hour, roped off, one arrow in the outer ring.">
+    <img id="hero-img" src="range-closed.png" alt="A weathered archery target at golden hour, roped off, one arrow in the outer ring.">
   </div>
 
-  <div class="cap"><h1>The range is closed.<br>Congratulate them anyway.</h1></div>
+  <div class="cap"><h1 id="headline">The range is closed.</h1></div>
 
   <main>
 
     <section class="score-card" id="results" hidden>
-      <p class="eyebrow">They scored</p>
+      <p class="eyebrow">I scored</p>
       <p class="score" id="r-score">0</p>
       <ul class="stats">
         <li id="li-acc" hidden><span class="v" id="r-acc"></span><span class="k">Accuracy</span></li>
@@ -72,14 +80,20 @@
         <li id="li-streak" hidden><span class="v" id="r-streak"></span><span class="k">Streak</span></li>
         <li id="li-range" hidden><span class="v" id="r-range"></span><span class="k">Range</span></li>
       </ul>
+
+      <div class="share-box">
+        <button class="share-btn" id="share-btn" type="button">Share my run</button>
+        <div><a class="share-alt" id="share-sms" href="#">Send as a text instead</a></div>
+        <p class="share-note" id="share-note"></p>
+      </div>
     </section>
 
-    <p class="sting">Targetfall isn&rsquo;t out yet. They can shoot arrows. You can&rsquo;t.</p>
+    <p class="sting" id="sting">Targetfall is in closed testing, so it is not on the store yet.</p>
 
-    <ul class="rules">
-      <li>Congratulate them. Out loud.</li>
+    <ul class="rules" id="rules" hidden>
+      <li>Congratulate me. Out loud.</li>
       <li>Don&rsquo;t say you&rsquo;d have got more.</li>
-      <li>Don&rsquo;t ask if they used their Rewind.</li>
+      <li>Don&rsquo;t ask if I used my Rewind.</li>
     </ul>
 
     <section class="signup">
@@ -97,20 +111,16 @@
     </footer>
 
   </main>
+
+  <canvas id="card-canvas" width="1080" height="1350" hidden></canvas>
+
 <script>
 (function () {
-  // Everything below is written with textContent, never innerHTML: these values
-  // arrive from a URL that anyone can edit and hand to someone else.
-  var q = new URLSearchParams(window.location.search);
+  "use strict";
 
-  function intOf(name, max) {
-    var raw = q.get(name);
-    if (raw === null) return null;
-    if (!/^\d{1,7}$/.test(raw)) return null;
-    var n = parseInt(raw, 10);
-    if (!isFinite(n) || n < 0 || n > max) return null;
-    return n;
-  }
+  var SITE = "https://playingodds-spec.github.io/Playingodds/brag/";
+  var SHORT = "playingodds-spec.github.io/Playingodds/brag";
+  var MAIL = "Playingodds@gmail.com";
 
   var RANGES = {
     morning: "Morning Range",
@@ -120,40 +130,193 @@
     tempest: "Tempest Range"
   };
 
-  var score = intOf("s", 999999);
-  if (score !== null) {
-    document.getElementById("r-score").textContent = String(score);
-    document.getElementById("results").hidden = false;
+  var q = new URLSearchParams(window.location.search);
 
-    var acc = intOf("a", 100);
-    if (acc !== null) {
-      document.getElementById("r-acc").textContent = acc + "%";
-      document.getElementById("li-acc").hidden = false;
+  // Values arrive from a URL anyone can edit and hand to someone else, so each
+  // one is pattern-checked and range-checked, and everything reaches the DOM
+  // through textContent. Nothing here is ever interpolated into HTML.
+  function intOf(name, max) {
+    var raw = q.get(name);
+    if (raw === null || !/^[0-9]{1,7}$/.test(raw)) return null;
+    var n = parseInt(raw, 10);
+    return (isFinite(n) && n >= 0 && n <= max) ? n : null;
+  }
+  function setText(id, value) { document.getElementById(id).textContent = value; }
+  function show(id) { document.getElementById(id).hidden = false; }
+
+  var score  = intOf("s", 999999);
+  var acc    = intOf("a", 100);
+  var bull   = intOf("b", 999999);
+  var streak = intOf("k", 999999);
+  var range  = RANGES[q.get("r")] || null;
+
+  var hasRun = score !== null;
+
+  if (hasRun) {
+    setText("r-score", String(score));
+    show("results");
+    show("rules");
+    setText("headline", "The range is closed. Congratulate me anyway.");
+    setText("sting", "Targetfall isn't out yet. I can shoot arrows. You can't.");
+    if (acc !== null)   { setText("r-acc", acc + "%");     show("li-acc"); }
+    if (bull !== null)  { setText("r-bull", String(bull)); show("li-bull"); }
+    if (streak !== null){ setText("r-streak", String(streak)); show("li-streak"); }
+    if (range)          { setText("r-range", range);      show("li-range"); }
+  }
+
+  // --- the sentence that travels with the share -------------------------
+  function shareLine() {
+    var bits = [];
+    if (acc !== null)  bits.push(acc + "% accuracy");
+    if (bull !== null) bits.push(bull + (bull === 1 ? " bullseye" : " bullseyes"));
+    var tail = bits.length ? " — " + bits.join(", ") : "";
+    return "I scored " + score + " on Targetfall" + tail + ".";
+  }
+
+  // --- the signup mail, built here so the address is not raw in the HTML --
+  var mailBody = "I'd like to join the Targetfall closed test.\n\n"
+               + "I'm sending this from the Google account I use on my Android phone.\n";
+  document.getElementById("signup-mail").href =
+    "mailto:" + MAIL
+    + "?subject=" + encodeURIComponent("Targetfall test signup")
+    + "&body=" + encodeURIComponent(mailBody);
+
+  if (!hasRun) return;   // nothing below applies to a bare visit
+
+  // --- sms: goes straight to the default messaging app, but text only.
+  // An image cannot be attached from a URL scheme, which is exactly why the
+  // share sheet above exists.
+  document.getElementById("share-sms").href =
+    "sms:?body=" + encodeURIComponent(shareLine() + " " + window.location.href);
+
+  // --- draw the card ------------------------------------------------------
+  function drawCard() {
+    var c = document.getElementById("card-canvas");
+    var x = c.getContext("2d");
+    var W = c.width, H = c.height;
+    var SERIF = 'Georgia, "Times New Roman", "Noto Serif", serif';
+
+    x.fillStyle = "#0d1013";
+    x.fillRect(0, 0, W, H);
+
+    // Hero across the top. Same origin, so the canvas is never tainted and
+    // toBlob will not throw a security error.
+    var img = document.getElementById("hero-img");
+    var bandH = 0;
+    if (img && img.complete && img.naturalWidth) {
+      bandH = Math.round(W * (img.naturalHeight / img.naturalWidth));
+      x.drawImage(img, 0, 0, W, bandH);
+      var fade = x.createLinearGradient(0, bandH - 160, 0, bandH);
+      fade.addColorStop(0, "rgba(13,16,19,0)");
+      fade.addColorStop(1, "#0d1013");
+      x.fillStyle = fade;
+      x.fillRect(0, bandH - 160, W, 160);
     }
-    var bull = intOf("b", 999999);
-    if (bull !== null) {
-      document.getElementById("r-bull").textContent = String(bull);
-      document.getElementById("li-bull").hidden = false;
+
+    var y = bandH + 96;
+    x.textAlign = "center";
+
+    x.fillStyle = "#e8b869";
+    x.font = "600 34px " + SERIF;
+    x.letterSpacing = "10px";
+    x.fillText("I SCORED", W / 2, y);
+    x.letterSpacing = "0px";
+
+    y += 190;
+    x.fillStyle = "#f2ede4";
+    x.font = "700 210px " + SERIF;
+    x.fillText(String(score), W / 2, y);
+
+    var row = [];
+    if (acc !== null)    row.push([acc + "%", "ACCURACY"]);
+    if (bull !== null)   row.push([String(bull), "BULLSEYES"]);
+    if (streak !== null) row.push([String(streak), "STREAK"]);
+    if (row.length) {
+      y += 110;
+      var step = W / (row.length + 1);
+      for (var i = 0; i < row.length; i++) {
+        var cx = step * (i + 1);
+        x.fillStyle = "#e8b869";
+        x.font = "700 62px " + SERIF;
+        x.fillText(row[i][0], cx, y);
+        x.fillStyle = "#a09384";
+        x.font = "600 24px " + SERIF;
+        x.letterSpacing = "5px";
+        x.fillText(row[i][1], cx, y + 42);
+        x.letterSpacing = "0px";
+      }
+      y += 42;
     }
-    var streak = intOf("k", 999999);
-    if (streak !== null) {
-      document.getElementById("r-streak").textContent = String(streak);
-      document.getElementById("li-streak").hidden = false;
-    }
-    var range = RANGES[q.get("r")];
+
     if (range) {
-      document.getElementById("r-range").textContent = range;
-      document.getElementById("li-range").hidden = false;
+      y += 86;
+      x.fillStyle = "#e8b869";
+      x.font = "italic 46px " + SERIF;
+      x.fillText(range, W / 2, y);
+    }
+
+    // The URL is BURNED IN on purpose. Several messaging apps drop the text
+    // when a file is attached, and without this the picture is a dead end.
+    x.fillStyle = "#a09384";
+    x.font = "600 30px " + SERIF;
+    x.fillText("TARGETFALL — CLOSED TEST", W / 2, H - 96);
+    x.fillStyle = "#e8b869";
+    x.font = "600 30px " + SERIF;
+    x.fillText(SHORT, W / 2, H - 50);
+  }
+
+  function cardBlob() {
+    return new Promise(function (resolve) {
+      drawCard();
+      document.getElementById("card-canvas").toBlob(resolve, "image/png");
+    });
+  }
+
+  // --- share --------------------------------------------------------------
+  var btn = document.getElementById("share-btn");
+  var note = document.getElementById("share-note");
+
+  function say(msg) { note.textContent = msg; }
+
+  function copyLink() {
+    var url = window.location.href;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        function () { say("Link copied — paste it to a friend."); },
+        function () { say(url); }
+      );
+    } else {
+      say(url);
     }
   }
 
-  // Built in JS so the address is not sitting in the raw HTML for scrapers.
-  var body = "I'd like to join the Targetfall closed test.\n\n"
-           + "I'm sending this from the Google account I use on my Android phone.\n";
-  document.getElementById("signup-mail").href =
-    "mailto:Playingodds@gmail.com"
-    + "?subject=" + encodeURIComponent("Targetfall test signup")
-    + "&body=" + encodeURIComponent(body);
+  btn.addEventListener("click", function () {
+    btn.disabled = true;
+    say("");
+
+    var line = shareLine();
+    var url = window.location.href;
+
+    cardBlob().then(function (blob) {
+      var file = blob ? new File([blob], "targetfall.png", { type: "image/png" }) : null;
+
+      // Best case: the picture goes into the message.
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        return navigator.share({ files: [file], text: line + " " + url });
+      }
+      // No file sharing: send the link, which still renders the run.
+      if (navigator.share) {
+        return navigator.share({ title: "Targetfall", text: line, url: url });
+      }
+      copyLink();
+      return null;
+    }).catch(function (err) {
+      // A cancelled share sheet lands here too, and is not a failure.
+      if (!err || err.name !== "AbortError") copyLink();
+    }).then(function () {
+      btn.disabled = false;
+    });
+  });
 })();
 </script>
 
