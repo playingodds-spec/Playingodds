@@ -52,6 +52,38 @@
     color: var(--muted);
   }
 
+
+  /* --- run results, only shown when the share link carries them --- */
+  .results { margin: 2rem 0 0; padding: 1.4rem 1.2rem; border: 1px solid var(--rule);
+             border-radius: 6px; background: rgba(232,184,105,0.045); text-align: center; }
+  .results .eyebrow { font-size: .68rem; letter-spacing: .26em; text-transform: uppercase;
+             color: var(--gold); margin: 0 0 .5rem; }
+  .results .score { font-family: Georgia, serif; font-size: clamp(3rem, 16vw, 5rem);
+             line-height: 1; color: var(--fg); margin: 0; }
+  .results .score-label { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+             color: var(--muted); margin: .35rem 0 1.1rem; }
+  .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1.6rem;
+             margin: 0; padding: 0; list-style: none; }
+  .stats li { min-width: 5.5rem; }
+  .stats .v { display: block; font-family: Georgia, serif; font-size: 1.5rem; color: var(--gold); }
+  .stats .k { display: block; font-size: .64rem; letter-spacing: .14em;
+             text-transform: uppercase; color: var(--muted); margin-top: .15rem; }
+
+  /* --- join the test --- */
+  .signup { margin: 2.5rem 0 0; padding: 1.5rem 1.2rem; border: 1px solid var(--rule);
+             border-left: 3px solid var(--gold); border-radius: 4px; }
+  .signup h2 { font-family: Georgia, serif; font-size: 1.25rem; color: var(--gold);
+             margin: 0 0 .6rem; }
+  .signup p { margin: 0 0 1rem; }
+  .cta { display: inline-block; background: var(--gold); color: #14171a; font-weight: 600;
+             text-decoration: none; padding: .8rem 1.3rem; border-radius: 4px; }
+  .cta:hover { filter: brightness(1.08); }
+  .qr-wrap { text-align: center; margin: 1.6rem 0 .3rem; }
+  .qr-wrap img { width: 190px; height: 190px; image-rendering: pixelated;
+             border-radius: 6px; background: #f2ede4; padding: 6px; }
+  .qr-cap { font-size: .82rem; color: var(--muted); margin: .6rem 0 0; }
+  .android-only { font-size: .84rem; color: var(--gold); margin: 1.2rem 0 0; }
+
   main { max-width: 34rem; margin: 0 auto; padding: 1.2rem 1.5rem 4rem; }
   .lede { font-size: 1.12rem; margin: 0 0 1.4rem; }
   p { margin: 0 0 1.1rem; }
@@ -96,6 +128,19 @@
 
   <main>
 
+
+    <section class="results" id="results" hidden>
+      <p class="eyebrow">They scored</p>
+      <p class="score" id="r-score">0</p>
+      <p class="score-label">Final score</p>
+      <ul class="stats">
+        <li id="li-acc" hidden><span class="v" id="r-acc"></span><span class="k">Accuracy</span></li>
+        <li id="li-bull" hidden><span class="v" id="r-bull"></span><span class="k">Bullseyes</span></li>
+        <li id="li-streak" hidden><span class="v" id="r-streak"></span><span class="k">Best streak</span></li>
+        <li id="li-range" hidden><span class="v" id="r-range"></span><span class="k">Furthest range</span></li>
+      </ul>
+    </section>
+
     <p class="lede">Someone just sent you a Targetfall score. Impressive, probably. Unverifiable, definitely.</p>
 
     <p><strong>The game isn't out yet.</strong> It's in closed testing, which means the person who sent you this can shoot arrows and you cannot. We appreciate that this is difficult. We ask you to bear it with dignity.</p>
@@ -112,6 +157,24 @@
 
     <p>Until then the scoreboard stands unchallenged, which is exactly how they wanted it.</p>
 
+
+    <section class="signup">
+      <h2>Want in on the test?</h2>
+      <p>Targetfall is in closed testing, so it is not on the store yet — but the
+      test has room. Send me the Google account you use on your Android phone and
+      I will add you and reply with how to install it.</p>
+
+      <p><a class="cta" id="signup-mail" href="#">Email me and I&rsquo;ll add you &rarr;</a></p>
+
+      <div class="qr-wrap">
+        <img src="signup-qr.png" alt="QR code that opens a pre-written email asking to join the Targetfall test.">
+        <p class="qr-cap">Or scan this — it writes the email for you.<br>You just hit send.</p>
+      </div>
+
+      <p class="android-only"><strong>Android only.</strong> Google&rsquo;s test system
+      cannot reach iPhones, so an iPhone cannot join.</p>
+    </section>
+
     <p style="margin-top:2rem"><a class="save" href="range-closed.png" target="_blank" rel="noopener">Take the wallpaper as a consolation prize →</a></p>
 
     <footer>
@@ -120,6 +183,67 @@
     </footer>
 
   </main>
+
+
+<script>
+(function () {
+  // Everything below is written with textContent, never innerHTML: these values
+  // arrive from a URL that anyone can edit and hand to someone else.
+  var q = new URLSearchParams(window.location.search);
+
+  function intOf(name, max) {
+    var raw = q.get(name);
+    if (raw === null) return null;
+    if (!/^\d{1,7}$/.test(raw)) return null;
+    var n = parseInt(raw, 10);
+    if (!isFinite(n) || n < 0 || n > max) return null;
+    return n;
+  }
+
+  var RANGES = {
+    morning: "Morning Range",
+    noon: "High Noon",
+    evening: "Golden Evening",
+    moonlit: "Moonlit Range",
+    tempest: "Tempest Range"
+  };
+
+  var score = intOf("s", 999999);
+  if (score !== null) {
+    document.getElementById("r-score").textContent = String(score);
+    document.getElementById("results").hidden = false;
+
+    var acc = intOf("a", 100);
+    if (acc !== null) {
+      document.getElementById("r-acc").textContent = acc + "%";
+      document.getElementById("li-acc").hidden = false;
+    }
+    var bull = intOf("b", 999999);
+    if (bull !== null) {
+      document.getElementById("r-bull").textContent = String(bull);
+      document.getElementById("li-bull").hidden = false;
+    }
+    var streak = intOf("k", 999999);
+    if (streak !== null) {
+      document.getElementById("r-streak").textContent = String(streak);
+      document.getElementById("li-streak").hidden = false;
+    }
+    var range = RANGES[q.get("r")];
+    if (range) {
+      document.getElementById("r-range").textContent = range;
+      document.getElementById("li-range").hidden = false;
+    }
+  }
+
+  // Built in JS so the address is not sitting in the raw HTML for scrapers.
+  var body = "I'd like to join the Targetfall closed test.\n\n"
+           + "I'm sending this from the Google account I use on my Android phone.\n";
+  document.getElementById("signup-mail").href =
+    "mailto:Playingodds@gmail.com"
+    + "?subject=" + encodeURIComponent("Targetfall test signup")
+    + "&body=" + encodeURIComponent(body);
+})();
+</script>
 
 </body>
 </html>
