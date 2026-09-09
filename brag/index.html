@@ -4,187 +4,99 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Range Is Closed — Targetfall</title>
-<meta name="description" content="Someone sent you a Targetfall score. The game isn't out yet. Congratulate them anyway.">
+<meta name="description" content="Someone sent you a Targetfall score. The game isn't out yet. Here's how to get in.">
 <meta property="og:title" content="The range is closed. Congratulate them anyway.">
 <meta property="og:description" content="Someone just sent you a Targetfall score. Impressive, probably. Unverifiable, definitely.">
 <meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/brag/range-closed.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <style>
-  :root {
-    --bg: #0d1013;
-    --fg: #f2ede4;
-    --muted: #a09384;
-    --gold: #e8b869;
-    --rule: rgba(232,184,105,0.22);
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  :root{--bg:#0d1013;--fg:#f2ede4;--muted:#a09384;--gold:#e8b869;--rule:rgba(232,184,105,.22)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);font:17px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  main{max-width:34rem;margin:0 auto;padding:0 1.5rem 3.5rem}
 
-  .hero { width: 100%; line-height: 0; }
-  .hero img { width: 100%; height: auto; display: block; }
+  .hero{width:100%;line-height:0}
+  .hero img{width:100%;height:auto;display:block}
+  .cap{padding:1.4rem 1.25rem .25rem;text-align:center;line-height:1.12}
+  .cap h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,6.4vw,2.7rem);margin:0;color:var(--gold)}
 
-  /* The caption sits UNDER the art, never over it. The target fills the
-     centre-bottom of the frame, so overlaid text landed on light tan wood
-     with a rope through it -- unreadable, and it buried the thing the page
-     exists to show. */
-  .hero-caption {
-    padding: 1.5rem 1.25rem 0.25rem;
-    text-align: center;
-    line-height: 1.15;
-  }
-  .hero-caption h1 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-weight: normal;
-    font-size: clamp(1.6rem, 6.4vw, 3rem);
-    margin: 0;
-    color: var(--gold);
-  }
-  .hero-caption p {
-    margin: 0.6rem 0 0;
-    font-size: clamp(0.92rem, 3.4vw, 1.05rem);
-    color: var(--muted);
-  }
+  /* Score: the loudest thing on the page. */
+  .score-card{margin:1.6rem 0 0;padding:1.6rem 1rem 1.3rem;text-align:center;
+    border:1px solid var(--rule);border-radius:8px;
+    background:radial-gradient(120% 140% at 50% 0%,rgba(232,184,105,.12),rgba(232,184,105,0) 70%)}
+  .eyebrow{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin:0 0 .4rem}
+  .score{font-family:Georgia,serif;font-size:clamp(4rem,22vw,7rem);line-height:.9;margin:0;color:var(--fg);
+    text-shadow:0 0 28px rgba(232,184,105,.28)}
+  .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem 1.5rem;margin:1.1rem 0 0;padding:0;list-style:none}
+  .stats .v{display:block;font-family:Georgia,serif;font-size:1.35rem;color:var(--gold)}
+  .stats .k{display:block;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
 
+  .sting{margin:1.6rem 0 0;font-size:1.05rem}
+  .rules{margin:1.2rem 0 0;padding:0;list-style:none;color:var(--muted);font-size:.95rem}
+  .rules li{padding:.4rem 0 .4rem 1.3rem;position:relative}
+  .rules li::before{content:"\2192";position:absolute;left:0;color:var(--gold)}
 
-  /* --- run results, only shown when the share link carries them --- */
-  .results { margin: 2rem 0 0; padding: 1.4rem 1.2rem; border: 1px solid var(--rule);
-             border-radius: 6px; background: rgba(232,184,105,0.045); text-align: center; }
-  .results .eyebrow { font-size: .68rem; letter-spacing: .26em; text-transform: uppercase;
-             color: var(--gold); margin: 0 0 .5rem; }
-  .results .score { font-family: Georgia, serif; font-size: clamp(3rem, 16vw, 5rem);
-             line-height: 1; color: var(--fg); margin: 0; }
-  .results .score-label { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
-             color: var(--muted); margin: .35rem 0 1.1rem; }
-  .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1.6rem;
-             margin: 0; padding: 0; list-style: none; }
-  .stats li { min-width: 5.5rem; }
-  .stats .v { display: block; font-family: Georgia, serif; font-size: 1.5rem; color: var(--gold); }
-  .stats .k { display: block; font-size: .64rem; letter-spacing: .14em;
-             text-transform: uppercase; color: var(--muted); margin-top: .15rem; }
+  .signup{margin:2.2rem 0 0;padding:1.4rem 1.2rem;text-align:center;
+    border:1px solid var(--rule);border-radius:8px;background:rgba(232,184,105,.05)}
+  .signup h2{font-family:Georgia,serif;font-size:1.35rem;color:var(--gold);margin:0 0 .5rem}
+  .signup p{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
+  .cta{display:inline-block;background:var(--gold);color:#14171a;font-weight:700;text-decoration:none;
+    padding:.85rem 1.4rem;border-radius:5px;letter-spacing:.01em}
+  .cta:hover{filter:brightness(1.08)}
+  .qr{width:172px;height:172px;image-rendering:pixelated;border-radius:8px;background:#f2ede4;padding:7px;margin:1.3rem 0 .4rem}
+  .fine{font-size:.8rem;color:var(--muted);margin:.5rem 0 0}
+  .fine strong{color:var(--gold)}
 
-  /* --- join the test --- */
-  .signup { margin: 2.5rem 0 0; padding: 1.5rem 1.2rem; border: 1px solid var(--rule);
-             border-left: 3px solid var(--gold); border-radius: 4px; }
-  .signup h2 { font-family: Georgia, serif; font-size: 1.25rem; color: var(--gold);
-             margin: 0 0 .6rem; }
-  .signup p { margin: 0 0 1rem; }
-  .cta { display: inline-block; background: var(--gold); color: #14171a; font-weight: 600;
-             text-decoration: none; padding: .8rem 1.3rem; border-radius: 4px; }
-  .cta:hover { filter: brightness(1.08); }
-  .qr-wrap { text-align: center; margin: 1.6rem 0 .3rem; }
-  .qr-wrap img { width: 190px; height: 190px; image-rendering: pixelated;
-             border-radius: 6px; background: #f2ede4; padding: 6px; }
-  .qr-cap { font-size: .82rem; color: var(--muted); margin: .6rem 0 0; }
-  .android-only { font-size: .84rem; color: var(--gold); margin: 1.2rem 0 0; }
-
-  main { max-width: 34rem; margin: 0 auto; padding: 1.2rem 1.5rem 4rem; }
-  .lede { font-size: 1.12rem; margin: 0 0 1.4rem; }
-  p { margin: 0 0 1.1rem; }
-  .rules { margin: 2rem 0; padding: 0; list-style: none; }
-  .rules li {
-    padding: 0.75rem 0 0.75rem 1.6rem;
-    border-top: 1px solid var(--rule);
-    position: relative;
-  }
-  .rules li:last-child { border-bottom: 1px solid var(--rule); }
-  .rules li::before {
-    content: "→";
-    position: absolute; left: 0; top: 0.75rem;
-    color: var(--gold);
-  }
-  .aside { display: block; color: var(--muted); font-style: italic; font-size: 0.93rem; margin-top: 0.2rem; }
-  .save {
-    display: inline-block;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    text-decoration: none;
-    padding: 0.6rem 1.1rem;
-    border-radius: 3px;
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-  }
-  .save:hover { background: var(--gold); color: var(--bg); }
-  footer { margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.88rem; }
-  footer a { color: var(--gold); }
+  footer{margin-top:2.4rem;padding-top:1.2rem;border-top:1px solid var(--rule);color:var(--muted);font-size:.82rem;text-align:center}
+  footer a{color:var(--gold)}
 </style>
 </head>
 <body>
 
   <div class="hero">
-    <img src="range-closed.png" alt="A weathered wooden archery target at golden hour with a rope strung across it and a single arrow lodged in the outer ring.">
+    <img src="range-closed.png" alt="A weathered archery target at golden hour, roped off, one arrow in the outer ring.">
   </div>
 
-  <div class="hero-caption">
-    <h1>The range is closed.<br>Congratulate them anyway.</h1>
-    <p>Sportsmanship costs nothing. Neither does this game, eventually.</p>
-  </div>
+  <div class="cap"><h1>The range is closed.<br>Congratulate them anyway.</h1></div>
 
   <main>
 
-
-    <section class="results" id="results" hidden>
+    <section class="score-card" id="results" hidden>
       <p class="eyebrow">They scored</p>
       <p class="score" id="r-score">0</p>
-      <p class="score-label">Final score</p>
       <ul class="stats">
         <li id="li-acc" hidden><span class="v" id="r-acc"></span><span class="k">Accuracy</span></li>
         <li id="li-bull" hidden><span class="v" id="r-bull"></span><span class="k">Bullseyes</span></li>
-        <li id="li-streak" hidden><span class="v" id="r-streak"></span><span class="k">Best streak</span></li>
-        <li id="li-range" hidden><span class="v" id="r-range"></span><span class="k">Furthest range</span></li>
+        <li id="li-streak" hidden><span class="v" id="r-streak"></span><span class="k">Streak</span></li>
+        <li id="li-range" hidden><span class="v" id="r-range"></span><span class="k">Range</span></li>
       </ul>
     </section>
 
-    <p class="lede">Someone just sent you a Targetfall score. Impressive, probably. Unverifiable, definitely.</p>
-
-    <p><strong>The game isn't out yet.</strong> It's in closed testing, which means the person who sent you this can shoot arrows and you cannot. We appreciate that this is difficult. We ask you to bear it with dignity.</p>
+    <p class="sting">Targetfall isn&rsquo;t out yet. They can shoot arrows. You can&rsquo;t.</p>
 
     <ul class="rules">
-      <li>Congratulate them. Out loud. Using words.</li>
-      <li>Do not say you "would've gotten more."</li>
-      <li>Do not question the accuracy percentage. It is calculated by a computer and you are not.</li>
-      <li>Do not ask whether they used their Rewind.<span class="aside">Every run gets exactly one absorbed miss. Whether they spent it is between them and the range.</span></li>
-      <li>Do not point out that the second miss is the one that ends it, and therefore luck is involved.<span class="aside">It is. Say nothing.</span></li>
+      <li>Congratulate them. Out loud.</li>
+      <li>Don&rsquo;t say you&rsquo;d have got more.</li>
+      <li>Don&rsquo;t ask if they used their Rewind.</li>
     </ul>
 
-    <p>Full bragging rights — including the right to reply with a larger number — will be restored when the game launches on Google Play.</p>
-
-    <p>Until then the scoreboard stands unchallenged, which is exactly how they wanted it.</p>
-
-
     <section class="signup">
-      <h2>Want in on the test?</h2>
-      <p>Targetfall is in closed testing, so it is not on the store yet — but the
-      test has room. Send me the Google account you use on your Android phone and
-      I will add you and reply with how to install it.</p>
-
-      <p><a class="cta" id="signup-mail" href="#">Email me and I&rsquo;ll add you &rarr;</a></p>
-
-      <div class="qr-wrap">
-        <img src="signup-qr.png" alt="QR code that opens a pre-written email asking to join the Targetfall test.">
-        <p class="qr-cap">Or scan this — it writes the email for you.<br>You just hit send.</p>
-      </div>
-
-      <p class="android-only"><strong>Android only.</strong> Google&rsquo;s test system
-      cannot reach iPhones, so an iPhone cannot join.</p>
+      <h2>Want in?</h2>
+      <p>The test has room. Send me the Google account on your Android phone and I&rsquo;ll add you.</p>
+      <a class="cta" id="signup-mail" href="#">Email me &rarr;</a>
+      <img class="qr" src="signup-qr.png" alt="QR code that writes the signup email for you.">
+      <p class="fine">Or scan it — the email writes itself.</p>
+      <p class="fine"><strong>Android only.</strong> Google&rsquo;s test system can&rsquo;t reach iPhones.</p>
     </section>
 
-    <p style="margin-top:2rem"><a class="save" href="range-closed.png" target="_blank" rel="noopener">Take the wallpaper as a consolation prize →</a></p>
-
     <footer>
-      <p><strong>Targetfall</strong> — one-thumb archery. Draw the bow, judge the arc, shatter the target. Coming to Google Play.</p>
-      <p>Playing Odds Games · <a href="../">Privacy policy</a></p>
+      <strong>Targetfall</strong> — one-thumb archery.<br>
+      Playing Odds Games · <a href="../">Privacy</a> · <a href="range-closed.png">Wallpaper</a>
     </footer>
 
   </main>
-
-
 <script>
 (function () {
   // Everything below is written with textContent, never innerHTML: these values
