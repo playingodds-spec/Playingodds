@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Range Is Closed — Targetfall</title>
-<meta name="description" content="A Targetfall score worth beating, and how to get into the closed test.">
-<meta property="og:title" content="Beat my Targetfall score. Go on.">
-<meta property="og:description" content="There is one problem. The range is closed — and you are not in the test yet.">
-<meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/brag/range-closed.png">
+<title>Targetfall — beat my score</title>
+<meta name="description" content="A Targetfall score worth beating. One-thumb archery, free on Google Play.">
+<meta property="og:title" content="Beat my Targetfall score.">
+<meta property="og:description" content="One-thumb archery. Free on Google Play.">
+<meta property="og:image" content="https://playingodds-spec.github.io/Playingodds/brag/feature-graphic.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <style>
@@ -43,22 +43,12 @@
   .share-alt{display:inline-block;margin-top:.75rem;color:var(--gold);font-size:.9rem}
   .share-note{color:var(--muted);font-size:.82rem;margin:.6rem 0 0;min-height:1.2em}
 
-  .sting{margin:1.6rem 0 0;font-size:1.05rem}
-  .rules{margin:1.2rem 0 0;padding:0;list-style:none;color:var(--muted);font-size:.95rem}
-  .rules li{padding:.4rem 0 .4rem 1.3rem;position:relative}
-  .rules li::before{content:"\2192";position:absolute;left:0;color:var(--gold)}
-
-  .signup{margin:2.2rem 0 0;padding:1.4rem 1.2rem;text-align:center;
-    border:1px solid var(--rule);border-radius:8px;background:rgba(232,184,105,.05)}
-  .signup h2{font-family:Georgia,serif;font-size:1.35rem;color:var(--gold);margin:0 0 .5rem}
-  .signup p{margin:0 0 1rem;color:var(--muted);font-size:.95rem}
-  .cta{display:inline-block;background:var(--gold);color:#14171a;font-weight:700;text-decoration:none;
-    padding:.85rem 1.4rem;border-radius:5px}
-  /* display:block + auto margins. As an inline element it shared a line with
-     the Email button and the pair centred together instead of stacking. */
-  .qr{display:block;width:172px;height:172px;image-rendering:pixelated;border-radius:8px;background:#f2ede4;padding:7px;margin:1.3rem auto .4rem}
-  .fine{font-size:.8rem;color:var(--muted);margin:.5rem 0 0}
-  .fine strong{color:var(--gold)}
+  .play-box{margin:1.6rem 0 0;text-align:center}
+  .play-btn{display:inline-block;width:100%;max-width:20rem;background:var(--gold);color:#14171a;
+    font-size:1.05rem;font-weight:700;text-decoration:none;border-radius:6px;padding:1rem 1.2rem}
+  .play-btn:active{filter:brightness(.94)}
+  .play-sub{color:var(--muted);font-size:.82rem;margin:.6rem 0 0}
+  .pitch{margin:1.2rem 0 0;color:var(--muted);font-size:.98rem;text-align:center}
 
   footer{margin-top:2.4rem;padding-top:1.2rem;border-top:1px solid var(--rule);color:var(--muted);font-size:.82rem;text-align:center}
   footer a{color:var(--gold)}
@@ -67,10 +57,10 @@
 <body>
 
   <div class="hero">
-    <img id="hero-img" src="range-closed.png" alt="A weathered archery target at golden hour, roped off, one arrow in the outer ring.">
+    <img id="hero-img" src="feature-graphic.png" alt="Targetfall: a shattered wooden target and an arrow in a forest valley.">
   </div>
 
-  <div class="cap"><h1 id="headline">The range is closed.</h1></div>
+  <div class="cap"><h1 id="headline">One thumb. One bow. How far can you get?</h1></div>
 
   <main>
 
@@ -92,33 +82,30 @@
       </div>
     </section>
 
-    <p class="sting" id="sting">Targetfall is in closed testing, so it is not on the store yet.</p>
-
-    <section class="signup">
-      <h2 id="signup-head">Want in?</h2>
-      <p id="signup-copy">The test has room. Send me the Google account on your Android phone and I&rsquo;ll add you.</p>
-      <a class="cta" id="signup-mail" href="#">Email me &rarr;</a>
-      <img class="qr" src="signup-qr.png" alt="QR code that writes the signup email for you.">
-      <p class="fine">Or scan it — the email writes itself.</p>
-      <p class="fine"><strong>Android only.</strong> Google&rsquo;s test system can&rsquo;t reach iPhones.</p>
+    <section class="play-box">
+      <a class="play-btn" id="play-link" href="https://play.google.com/store/apps/details?id=com.playingodds.targetfall&amp;referrer=utm_source%3Dbrag">Get it free on Google Play</a>
+      <p class="play-sub">Android · free · no account needed</p>
     </section>
+
+    <p class="pitch" id="pitch">Draw the bow, judge the arc, shatter the falling target. Every hit makes the next one faster.</p>
 
     <footer>
       <strong>Targetfall</strong> — one-thumb archery.<br>
-      Playing Odds Games · <a href="../">Privacy</a> · <a href="range-closed.png">Wallpaper</a>
+      Playing Odds Games · <a href="../">Privacy</a>
     </footer>
 
   </main>
 
   <canvas id="card-canvas" width="1080" height="1350" hidden></canvas>
 
+<!-- QR for the card. If this fails to load, the card is drawn without it. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
 <script>
 (function () {
   "use strict";
 
-  var SITE = "https://playingodds-spec.github.io/Playingodds/brag/";
-  var SHORT = "playingodds-spec.github.io/Playingodds/brag";
-  var MAIL = "Playingodds@gmail.com";
+  var PLAY_URL = "https://play.google.com/store/apps/details?id=com.playingodds.targetfall&referrer=utm_source%3Dbrag";
 
   var RANGES = {
     morning: "Morning Range",
@@ -159,11 +146,6 @@
     if (assisted) document.getElementById("r-assist").hidden = false;
     show("results");
     setText("headline", "Beat that.");
-    setText("sting", "One problem: the range is closed. Targetfall isn't out yet, "
-                   + "so you can't beat anything until you're in the test.");
-    setText("signup-head", "Get in and prove it.");
-    setText("signup-copy", "The test has room. Send me the Google account on your "
-                         + "Android phone and I'll add you.");
     if (acc !== null)   { setText("r-acc", acc + "%");     show("li-acc"); }
     if (bull !== null)  { setText("r-bull", String(bull)); show("li-bull"); }
     if (streak !== null){ setText("r-streak", String(streak)); show("li-streak"); }
@@ -177,16 +159,9 @@
     if (bull !== null) bits.push(bull + (bull === 1 ? " bullseye" : " bullseyes"));
     var tail = bits.length ? " (" + bits.join(", ") + ")" : "";
     var star = assisted ? " (continued once)" : "";
-    return "I scored " + score + star + " on Targetfall" + tail + ". Bet you can't beat it.";
+    return "I scored " + score + star + " on Targetfall" + tail + ". Bet you can't beat it. "
+         + "Free on Google Play: " + PLAY_URL;
   }
-
-  // --- the signup mail, built here so the address is not raw in the HTML --
-  var mailBody = "I'd like to join the Targetfall closed test.\n\n"
-               + "I'm sending this from the Google account I use on my Android phone.\n";
-  document.getElementById("signup-mail").href =
-    "mailto:" + MAIL
-    + "?subject=" + encodeURIComponent("Targetfall test signup")
-    + "&body=" + encodeURIComponent(mailBody);
 
   if (!hasRun) return;   // nothing below applies to a bare visit
 
@@ -194,7 +169,7 @@
   // An image cannot be attached from a URL scheme, which is exactly why the
   // share sheet above exists.
   document.getElementById("share-sms").href =
-    "sms:?body=" + encodeURIComponent(shareLine() + " " + window.location.href);
+    "sms:?body=" + encodeURIComponent(shareLine());
 
   // --- draw the card ------------------------------------------------------
   function drawCard() {
@@ -211,8 +186,11 @@
     var img = document.getElementById("hero-img");
     var bandH = 0;
     if (img && img.complete && img.naturalWidth) {
-      bandH = Math.round(W * (img.naturalHeight / img.naturalWidth));
-      x.drawImage(img, 0, 0, W, bandH);
+      // A centre crop of the hero, not the whole thing: the full graphic is
+      // ~527 px tall at this width and would push the store footer off the card.
+      bandH = 380;
+      var srcH = img.naturalWidth * (bandH / W);
+      x.drawImage(img, 0, (img.naturalHeight - srcH) / 2, img.naturalWidth, srcH, 0, 0, W, bandH);
       var fade = x.createLinearGradient(0, bandH - 160, 0, bandH);
       fade.addColorStop(0, "rgba(13,16,19,0)");
       fade.addColorStop(1, "#0d1013");
@@ -271,14 +249,50 @@
     x.fillText("BEAT IT.", W / 2, y);
     x.letterSpacing = "0px";
 
-    // The URL is BURNED IN on purpose. Several messaging apps drop the text
-    // when a file is attached, and without this the picture is a dead end.
-    x.fillStyle = "#a09384";
-    x.font = "600 30px " + SERIF;
-    x.fillText("TARGETFALL — CLOSED TEST", W / 2, H - 96);
+    // The store is BURNED IN on purpose. Several messaging apps drop the text
+    // when a file is attached, and without this the picture is a dead end. The
+    // QR goes straight to the Play listing; it is skipped if the library failed.
+    var footTop = H - 270;
+    var textX = 64;
+    if (window.qrcode) {
+      try {
+        var qr = window.qrcode(0, "M");
+        qr.addData(PLAY_URL);
+        qr.make();
+        var n = qr.getModuleCount();
+        var box = 220, pad = 12, cell = Math.floor((box - pad * 2) / n);
+        var qrSize = cell * n, bx = 64, by = footTop;
+        x.fillStyle = "#f2ede4";
+        roundRect(x, bx, by, qrSize + pad * 2, qrSize + pad * 2, 14);
+        x.fillStyle = "#14171a";
+        for (var r = 0; r < n; r++)
+          for (var c2 = 0; c2 < n; c2++)
+            if (qr.isDark(r, c2)) x.fillRect(bx + pad + c2 * cell, by + pad + r * cell, cell, cell);
+        textX = bx + qrSize + pad * 2 + 44;
+      } catch (e) { textX = 64; }
+    }
+    x.textAlign = textX === 64 ? "center" : "left";
+    var tx = textX === 64 ? W / 2 : textX;
     x.fillStyle = "#e8b869";
-    x.font = "600 30px " + SERIF;
-    x.fillText(SHORT, W / 2, H - 50);
+    x.font = "600 40px " + SERIF;
+    x.letterSpacing = "3px";
+    x.fillText("FREE ON GOOGLE PLAY", tx, footTop + 100);
+    x.letterSpacing = "0px";
+    x.fillStyle = "#a09384";
+    x.font = "italic 32px " + SERIF;
+    x.fillText("Search “Targetfall”", tx, footTop + 150);
+    x.textAlign = "center";
+  }
+
+  function roundRect(ctx, rx, ry, rw, rh, rr) {
+    ctx.beginPath();
+    ctx.moveTo(rx + rr, ry);
+    ctx.arcTo(rx + rw, ry, rx + rw, ry + rh, rr);
+    ctx.arcTo(rx + rw, ry + rh, rx, ry + rh, rr);
+    ctx.arcTo(rx, ry + rh, rx, ry, rr);
+    ctx.arcTo(rx, ry, rx + rw, ry, rr);
+    ctx.closePath();
+    ctx.fill();
   }
 
   function cardBlob() {
@@ -318,7 +332,7 @@
 
       // Best case: the picture goes into the message.
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        return navigator.share({ files: [file], text: line + " " + url });
+        return navigator.share({ files: [file], text: line });
       }
       // No file sharing: send the link, which still renders the run.
       if (navigator.share) {
