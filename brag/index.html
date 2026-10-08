@@ -40,7 +40,8 @@
     font-family:inherit;letter-spacing:.01em}
   .share-btn:active{filter:brightness(.94)}
   .share-btn[disabled]{opacity:.6;cursor:default}
-  .share-alt{display:inline-block;margin-top:.75rem;color:var(--gold);font-size:.9rem}
+  .share-alt{display:inline-block;margin-top:.75rem;color:var(--gold);font-size:.9rem;
+    background:none;border:0;padding:0;font-family:inherit;text-decoration:underline;cursor:pointer}
   .share-note{color:var(--muted);font-size:.82rem;margin:.6rem 0 0;min-height:1.2em}
 
   .play-box{margin:1.6rem 0 0;text-align:center}
@@ -77,7 +78,8 @@
 
       <div class="share-box">
         <button class="share-btn" id="share-btn" type="button">Send the challenge</button>
-        <div><a class="share-alt" id="share-sms" href="#">Send it as a text instead</a></div>
+        <div><button class="share-alt" id="share-pic" type="button">Send the picture instead</button></div>
+        <div><a class="share-alt" id="share-sms" href="#">Send it as a text</a></div>
         <p class="share-note" id="share-note"></p>
       </div>
     </section>
@@ -97,9 +99,6 @@
   </main>
 
   <canvas id="card-canvas" width="1080" height="1350" hidden></canvas>
-
-<!-- QR for the card. If this fails to load, the card is drawn without it. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 
 <script>
 (function () {
@@ -249,50 +248,16 @@
     x.fillText("BEAT IT.", W / 2, y);
     x.letterSpacing = "0px";
 
-    // The store is BURNED IN on purpose. Several messaging apps drop the text
-    // when a file is attached, and without this the picture is a dead end. The
-    // QR goes straight to the Play listing; it is skipped if the library failed.
-    var footTop = H - 270;
-    var textX = 64;
-    if (window.qrcode) {
-      try {
-        var qr = window.qrcode(0, "M");
-        qr.addData(PLAY_URL);
-        qr.make();
-        var n = qr.getModuleCount();
-        var box = 220, pad = 12, cell = Math.floor((box - pad * 2) / n);
-        var qrSize = cell * n, bx = 64, by = footTop;
-        x.fillStyle = "#f2ede4";
-        roundRect(x, bx, by, qrSize + pad * 2, qrSize + pad * 2, 14);
-        x.fillStyle = "#14171a";
-        for (var r = 0; r < n; r++)
-          for (var c2 = 0; c2 < n; c2++)
-            if (qr.isDark(r, c2)) x.fillRect(bx + pad + c2 * cell, by + pad + r * cell, cell, cell);
-        textX = bx + qrSize + pad * 2 + 44;
-      } catch (e) { textX = 64; }
-    }
-    x.textAlign = textX === 64 ? "center" : "left";
-    var tx = textX === 64 ? W / 2 : textX;
+    // Where to get it is BURNED IN, because an image travels without its text:
+    // a picture posted alone must still say how to find the game.
     x.fillStyle = "#e8b869";
-    x.font = "600 40px " + SERIF;
-    x.letterSpacing = "3px";
-    x.fillText("FREE ON GOOGLE PLAY", tx, footTop + 100);
+    x.font = "700 52px " + SERIF;
+    x.letterSpacing = "4px";
+    x.fillText("FREE ON GOOGLE PLAY", W / 2, H - 150);
     x.letterSpacing = "0px";
-    x.fillStyle = "#a09384";
-    x.font = "italic 32px " + SERIF;
-    x.fillText("Search “Targetfall”", tx, footTop + 150);
-    x.textAlign = "center";
-  }
-
-  function roundRect(ctx, rx, ry, rw, rh, rr) {
-    ctx.beginPath();
-    ctx.moveTo(rx + rr, ry);
-    ctx.arcTo(rx + rw, ry, rx + rw, ry + rh, rr);
-    ctx.arcTo(rx + rw, ry + rh, rx, ry + rh, rr);
-    ctx.arcTo(rx, ry + rh, rx, ry, rr);
-    ctx.arcTo(rx, ry, rx + rw, ry, rr);
-    ctx.closePath();
-    ctx.fill();
+    x.fillStyle = "#f2ede4";
+    x.font = "italic 44px " + SERIF;
+    x.fillText("Search “Targetfall”", W / 2, H - 82);
   }
 
   function cardBlob() {
@@ -320,32 +285,36 @@
     }
   }
 
+  // The challenge goes as TEXT + LINK, never with an image attached: several
+  // messaging apps (Google Messages among them) silently drop the text when a
+  // file rides along, and the link is the part that gets a friend to the game.
+  // The link opens this page, whose preview card and Play button do the rest.
   btn.addEventListener("click", function () {
-    btn.disabled = true;
     say("");
-
     var line = shareLine();
-    var url = window.location.href;
+    if (navigator.share) {
+      navigator.share({ title: "Targetfall", text: line, url: window.location.href })
+        .catch(function (err) { if (!err || err.name !== "AbortError") copyLink(); });
+    } else {
+      copyLink();
+    }
+  });
 
+  // The picture is for places where an image is the post: stories, feeds.
+  var pic = document.getElementById("share-pic");
+  pic.addEventListener("click", function () {
+    pic.disabled = true;
+    say("");
     cardBlob().then(function (blob) {
       var file = blob ? new File([blob], "targetfall.png", { type: "image/png" }) : null;
-
-      // Best case: the picture goes into the message.
       if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-        return navigator.share({ files: [file], text: line });
+        return navigator.share({ files: [file], text: shareLine() });
       }
-      // No file sharing: send the link, which still renders the run.
-      if (navigator.share) {
-        return navigator.share({ title: "Targetfall", text: line, url: url });
-      }
-      copyLink();
+      say("This browser can't share pictures. Use Send the challenge instead.");
       return null;
     }).catch(function (err) {
-      // A cancelled share sheet lands here too, and is not a failure.
-      if (!err || err.name !== "AbortError") copyLink();
-    }).then(function () {
-      btn.disabled = false;
-    });
+      if (!err || err.name !== "AbortError") say("Couldn't share the picture.");
+    }).then(function () { pic.disabled = false; });
   });
 })();
 </script>
